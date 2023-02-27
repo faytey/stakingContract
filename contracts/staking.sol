@@ -14,16 +14,6 @@ contract smartStaking {
     event withdrawStake(address indexed, uint256, string);
     address admin;
 
-    constructor() {
-        boredApe = IERC721(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D);
-        USDC = IUSDT(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48);
-        admin = msg.sender;
-    }
-
-    function setTokenAddress(address _tokenAddress) public onlyadmin {
-        rewardToken = IUSDT(_tokenAddress);
-    }
-
     struct userDetails {
         uint256 stakedAmount;
         uint256 StakeTime;
@@ -32,15 +22,14 @@ contract smartStaking {
 
     mapping(address => userDetails) USER;
 
-    modifier boredApeHolder() {
-        uint256 balance = boredApe.balanceOf(msg.sender);
-        require(balance > 0, "NOT A BORED APE HOLDER, PURCHASE ONE");
-        _;
+    constructor() {
+        boredApe = IERC721(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D);
+        USDC = IUSDT(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48);
+        admin = msg.sender;
     }
 
-    modifier onlyadmin() {
-        require(msg.sender == admin, "NOT ADMIN");
-        _;
+    function setTokenAddress(address _tokenAddress) public onlyadmin {
+        rewardToken = IUSDT(_tokenAddress);
     }
 
     function stake(uint256 _amount) public boredApeHolder {
@@ -93,5 +82,16 @@ contract smartStaking {
         //updateReward();
         uint256 reward = (USER[msg.sender].Reward);
         return reward;
+    }
+
+    modifier boredApeHolder() {
+        uint256 balance = boredApe.balanceOf(msg.sender);
+        require(balance > 0, "NOT A BORED APE HOLDER, PURCHASE ONE");
+        _;
+    }
+
+    modifier onlyadmin() {
+        require(msg.sender == admin, "NOT ADMIN");
+        _;
     }
 }

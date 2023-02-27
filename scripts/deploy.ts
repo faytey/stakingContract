@@ -54,7 +54,7 @@ async function main() {
     console.log(`address one staked successfully`);
     const userBalanceAfta = await Usdc.balanceOf(impersonatedSigner.address);
 
-    console.log(`BALANCE BEFORE STAKING ${userBalanceAfta}`);
+    console.log(`BALANCE AFTER STAKING ${userBalanceAfta}`);
 
 
     const stake2 = await staking.connect(impersonatedSigner2).stake(10000000000);
